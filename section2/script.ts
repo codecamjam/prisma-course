@@ -14,6 +14,7 @@ async function main() {
 
   // we need a course model
 
+  // ----------------------------------------
   //insert the record into course like title, desc, duration, date
   // const course = await prisma.course.create({
   //   data: {
@@ -31,8 +32,27 @@ async function main() {
   // });
   // console.log(course);
 
-  const courses = await prisma.course.findMany();
-  console.log(courses);
+  // ----------------------------------------
+  // const courses = await prisma.course.findMany();
+  // console.log(courses);
+
+
+  // ----------------------------------------
+  // const video = await prisma.video.create({
+  //   data: {
+  //     title: 'Learn relation',
+  //     desc: 'One to many relationship between models',
+  //     url: 'www.aws.s3.com/2131231',
+  //     courseId: 1 // creating a video for the prisma course
+  //   }
+  // });
+  // console.log(video);
+
+
+  // ----------------------------------------
+  // when we find the videos, attach the Course object
+  const videos = await prisma.video.findMany({ include: { Course: {} } });
+  console.log(videos);
 }
 
 main().then(async () => {
