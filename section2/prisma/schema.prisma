@@ -10,17 +10,33 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Instructor {
+  id      Int      @id @default(autoincrement())
+  email   String   @unique
+  name    String
+  zip     String
+  country String
+  city    String
+  courses Course[]
+}
+
 model Course {
   id        Int      @id @default(autoincrement())
   title     String
   desc      String
   duration  Float
   createdAt DateTime @default(now())
+  videos    Video[]
+
+  Instructor   Instructor? @relation(fields: [instructorId], references: [id])
+  instructorId Int?
 }
 
 model Video {
-  id    Int    @id @default(autoincrement())
-  title String
-  desc  String
-  url   String
+  id       Int     @id @default(autoincrement())
+  title    String
+  desc     String
+  url      String
+  Course   Course? @relation(fields: [courseId], references: [id])
+  courseId Int?
 }

@@ -22,14 +22,17 @@ async function main() {
   //     duration: 2.5
   //   }
   // });
-  const course = await prisma.course.create({
-    data: {
-      title: 'LEARN GatsbyJs',
-      desc: 'Step by Step learn how to use Gatsby',
-      duration: 3.5
-    }
-  });
-  console.log(course);
+  // const course = await prisma.course.create({
+  //   data: {
+  //     title: 'LEARN GatsbyJs',
+  //     desc: 'Step by Step learn how to use Gatsby',
+  //     duration: 3.5
+  //   }
+  // });
+  // console.log(course);
+
+  const courses = await prisma.course.findMany();
+  console.log(courses);
 }
 
 main().then(async () => {
