@@ -4,7 +4,21 @@ import prisma from "../db";
 import { Request, Response } from 'express';
 
 export const getCourses = async (req: Request, res: Response) => {
-  const courses = await prisma.course.findMany();
+
+  // I would like to fetch all the courses on the based on instructor id
+  // 
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  const courses = await prisma.course.findMany({
+    where: {
+      instructorId: +req.params.instructorId
+    },
+    include: {
+      Instructor: true
+    }
+  });
   res.status(200).json(courses);
 };
 

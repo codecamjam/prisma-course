@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { body, param } from "express-validator";
 import { createCourse, deleteCourseById, getCourses, getCourseById, updateCourse } from "./handlers/course";
+import { getInstructors, createInstructor } from "./handlers/instructor";
 
 const router = Router();
 
@@ -8,7 +9,7 @@ const router = Router();
  * Course Routes
  */
 
-router.get('/course', getCourses);
+router.get('/courses/:instructorId', param('instructorId').isInt(), getCourses); // modify this route
 router.post('/course',
   body('title').isString().notEmpty(),
   body('duration').isFloat().notEmpty(),
@@ -31,6 +32,14 @@ router.put('/course/:id',
 /**
  * Instructor Routes
  */
+router.get('/instructors', getInstructors);
+router.post('/instructor',
+  body('email').isString().isEmail().notEmpty(),
+  body('name').isString().notEmpty(),
+  body('zip').isString().notEmpty(),
+  body('country').isString().notEmpty(),
+  body('city').isString().notEmpty(),
+  createInstructor);
 
 /**
  * Video Routes
