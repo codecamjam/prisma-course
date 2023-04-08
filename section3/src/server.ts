@@ -12,11 +12,11 @@ app.use(express.json());
 app.use('/api', router);
 
 app.get('/', (req, res) => {
-    res.send('HELLO WORLD');
+  res.send('HELLO WORLD');
 });
 
 if (process.env.NODE_ENV === 'development') {
-    app.use(errorhandler());
+  app.use(errorhandler());
 }
 
 export default app;

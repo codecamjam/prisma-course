@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { body } from "express-validator";
-import { createCourse, getCourses } from "./handlers/course";
+import { body, param } from "express-validator";
+import { createCourse, getCourses, getCourseById } from "./handlers/course";
 
 const router = Router();
 
@@ -15,6 +15,8 @@ router.post('/course',
   body('desc').isString().notEmpty(),
   body('instructorId').isInt().optional(),
   createCourse);
+
+router.get('/course/:id', param('id').isInt(), getCourseById);
 
 /**
  * Instructor Routes
