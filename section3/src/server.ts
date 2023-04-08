@@ -4,6 +4,12 @@ import express from 'express';
 const app = express();
 const prisma = new PrismaClient();
 
+// custom middleware
+app.use((req, res, next) => {
+	console.log(`${req.url} ${new Date()}`);
+	next(); // call the next middleware in the stack
+});
+
 app.get('/', (req, res) => {
 	res.send('HELLO WROLD');
 });
@@ -30,28 +36,27 @@ app.get('/api/courses', async (req, res) => {
 app.post('/api/course', async (req, res) => {
 
 
-	// create a new instructor 1st
+	// create a new instructor 
 	// const instructor = await prisma.instructor.create({
-	// 	data: {
-	// 		name: 'Jhony',
-	// 		city: 'London',
-	// 		country: 'UK',
-	// 		email: 'john@gmail.com',
-	// 		zip: '2300'
-	// 	}
+	//     data:{
+	//         name: 'Jhony',
+	//         city: 'London',
+	//         country: 'UK',
+	//         email:'john@gmail.com',
+	//         zip: '2300'
+	//     }
 	// });
-
-	// create new record 2nd
+	// create new record
 	const course = await prisma.course.create({
 		data: {
-			title: 'Learn Sails.js',
-			desc: 'Build apis with Sailsjs',
+			title: 'Learn Loopback',
+			desc: 'Build apis with Loopback',
 			duration: 12.4,
-			instructorId: 1 // 
-			// Instructor: { // this is equivalent to just using instructorId
-			// 	connect: {
-			// 		id: 1
-			// 	}
+			instructorId: 1
+			// Instructor:{
+			//     connect:{
+			//         id: 1
+			//     }
 			// }
 		}
 	});
