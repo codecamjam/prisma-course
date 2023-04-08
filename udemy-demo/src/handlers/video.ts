@@ -1,9 +1,8 @@
 import { validationResult } from "express-validator";
 import prisma from "../db";
+import { RequestHandler } from "express";
 
-import { Request, Response } from 'express';
-
-export const createVideo = async (req: Request, res: Response) => {
+export const createVideo: RequestHandler = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -20,11 +19,10 @@ export const createVideo = async (req: Request, res: Response) => {
       }
     }
   });
-
   return res.status(201).json(video);
 };
 
-export const getVideos = async (req: Request, res: Response) => {
+export const getVideos: RequestHandler = async (req, res) => {
   const videos = await prisma.video.findMany({
     include: {
       videoDetails: true

@@ -2,16 +2,17 @@ import { Router } from "express";
 import { body, param } from "express-validator";
 import { createCourse, deleteCourseById, getCourses, getCourseById, updateCourse } from "./handlers/course";
 import { getInstructors, createInstructor, getInstructor } from "./handlers/instructor";
+import { privateRoute, signin, signup } from "./handlers/user";
 import { createVideo, getVideos } from "./handlers/video";
+import { authenticate } from "./middlewares/auth";
 
 const router = Router();
 
-/**
+/*******************************************************************************
  * Course Routes
  */
-
-router.get('/courses/:instructorId', param('instructorId').isInt(), getCourses); // modify this route
-router.post('/course',
+router.get('/courses/:instructorId', param('instructorId').isInt(), getCourses);
+router.post('/course', authenticate,
   body('title').isString().notEmpty(),
   body('duration').isFloat().notEmpty(),
   body('desc').isString().notEmpty(),
@@ -30,12 +31,11 @@ router.put('/course/:id',
   body('instructorId').isInt().optional(),
   updateCourse);
 
-/**
+/*******************************************************************************
  * Instructor Routes
  */
 router.get('/instructors', getInstructors);
-router.post('/instructor',
-  body('email').isString().isEmail().notEmpty(),
+router.post('/instructor', authenticate,
   body('name').isString().notEmpty(),
   body('zip').isString().notEmpty(),
   body('country').isString().notEmpty(),
@@ -43,7 +43,8 @@ router.post('/instructor',
   createInstructor);
 
 router.get('/instructor/:id', param('id').isInt(), getInstructor);
-/**
+
+/*******************************************************************************
  * Video Routes
  */
 router.post('/video',
@@ -56,5 +57,21 @@ router.post('/video',
   createVideo);
 
 router.get('/videos', getVideos);
+
+/*******************************************************************************
+ * User Routes
+ */
+router.post('/signup',
+  body('email').isString().isEmail().notEmpty(),
+  body('password').isString().notEmpty(),
+  signup);
+
+router.post('/signin',
+  body('email').isString().isEmail().notEmpty(),
+  body('password').isString().notEmpty(),
+  signin);
+
+router.get('/private', authenticate, privateRoute);
+
 
 export default router;
