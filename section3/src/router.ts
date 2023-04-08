@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { body, param } from "express-validator";
-import { createCourse, getCourses, getCourseById } from "./handlers/course";
+import { createCourse, deleteCourseById, getCourses, getCourseById, updateCourse } from "./handlers/course";
 
 const router = Router();
 
@@ -17,6 +17,16 @@ router.post('/course',
   createCourse);
 
 router.get('/course/:id', param('id').isInt(), getCourseById);
+router.delete('/course/:id', param('id').isInt(), deleteCourseById);
+
+// write the route here
+router.put('/course/:id',
+  param('id').isInt(),
+  body('title').isString().optional(),
+  body('duration').isFloat().optional(),
+  body('desc').isString().optional(),
+  body('instructorId').isInt().optional(),
+  updateCourse);
 
 /**
  * Instructor Routes
