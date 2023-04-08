@@ -28,3 +28,18 @@ export const createInstructor = async (req: Request, res: Response) => {
   return res.status(201).json(instructor);
 
 };
+
+export const getInstructor = async (req: Request, res: Response) => {
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  const instructor = await prisma.instructor.findUnique({
+    where: { id: +req.params.id },
+    include: {
+      courses: true
+    }
+  });
+  return res.status(200).json(instructor);
+};

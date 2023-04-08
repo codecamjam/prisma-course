@@ -32,10 +32,20 @@ model Course {
 }
 
 model Video {
-  id       Int     @id @default(autoincrement())
-  title    String
-  desc     String
-  url      String
-  Course   Course? @relation(fields: [courseId], references: [id])
-  courseId Int?
+  id           Int           @id @default(autoincrement())
+  title        String
+  desc         String
+  Course       Course?       @relation(fields: [courseId], references: [id])
+  courseId     Int?
+  videoDetails VideoDetails?
+}
+
+model VideoDetails {
+  id              Int     @id @default(autoincrement())
+  key             String?
+  metaData        String?
+  url             String
+  hostingProvider String
+  video           Video?  @relation(fields: [videoId], references: [id])
+  videoId         Int?    @unique // this represents a 1:1 relationship
 }
