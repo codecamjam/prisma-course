@@ -1,0 +1,15 @@
+id,title,desc,duration,createdAt,instructorId
+1,"Build apps with Angular","Learn Angular by building 10 apps",20.5,2022-12-06 08:19:19.248,
+3,"Learn Sails.js","Build apis with Sailsjs",12.4,2022-12-07 06:19:58.806,2
+4,"Learn Sails.js","Build apis with Sailsjs",12.4,2022-12-07 06:21:17.370,1
+5,"Learn Loopback","Build apis with Loopback",12.4,2022-12-07 06:22:29.931,1
+6,"Learn Loopback","Build apis with Loopback",12.4,2022-12-08 07:45:01.599,1
+7,"Learn GraphQL API","Build apis with Loopback",12.4,2022-12-08 07:46:44.585,1
+8,"Learn Angular API","Step by step guide to learn Angular API",20.0,2022-12-08 07:49:45.822,
+9,"","Step by step guide to learn Angular API",20.0,2022-12-08 07:51:22.242,
+10,"","Step by step guide to learn Angular API",20.0,2022-12-08 07:53:08.573,
+11,"","Step by step guide to learn Angular API",20.0,2022-12-08 07:53:53.366,
+12,"Swagger API","Step by step guide to learn Swagger API",20.0,2022-12-08 08:06:00.527,
+13,"Swagger API","Step by step guide to learn Swagger API",20.0,2022-12-08 08:06:11.082,1
+14,"Swagger API v2","Step by step guide to learn Swagger API v2",20.0,2022-12-08 08:06:18.656,1
+15,"Swagger API v4","Step by step guide to learn Swagger API v4",20.0,2022-12-09 09:02:59.201,1

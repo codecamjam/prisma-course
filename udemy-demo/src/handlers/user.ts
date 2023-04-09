@@ -48,6 +48,27 @@ export const signin: RequestHandler = async (req, res) => {
   return res.status(401).json({ msg: 'UnAuthorized: Invalid Email or password' });
 };
 
+export const deactivateAccount: RequestHandler = async (req, res) => {
+  const { email, password } = req.body;
+  // First, we need to verify that the user is the owner of the account they want to deactivate
+  const user = await prisma.user.findUnique({ where: { email } });
+  if (!user) {
+    return res.status(404).json({ msg: 'User not found' });
+  }
+  const passwordMatches = await bcrypt.compare(password, user.password);
+  if (!passwordMatches) {
+    return res.status(401).json({ msg: 'Invalid credentials' });
+  }
+  // Deactivate the account by updating the `active` field to false
+  const updatedUser = await prisma.user.delete({
+    where: { id: +user.id },
+  });
+  // Clear the authentication token 
+  res.set('Authorization', undefined);
+  res.set('user', undefined);
+  res.status(200).json(updatedUser);
+};
+
 /**
  * Only authenticated user can see this route or access this route
  * @param req 
@@ -58,3 +79,4 @@ export const privateRoute: RequestHandler = async (req, res) => {
   console.log(req.user);
   return res.json({ msg: 'I am in authenticated route' });
 };
+

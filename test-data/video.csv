@@ -1,0 +1,3 @@
+id,title,desc,courseId
+1,"Learn relation","One to many relationship between models",1
+2,Relations,"Relational queries",

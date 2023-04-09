@@ -1,0 +1,41 @@
+// this is to get all the data from our sqlite db so we can move it to postgres
+
+brew install sqlite
+sqlite3 --version
+sqlite3 dev.db
+
+.databases // it should be main
+.tables // show the tables
+
+//generate csvs
+
+.headers on
+.mode csv
+.output course.csv
+SELECT * FROM Course;
+
+.headers on
+.mode csv
+.output instructor.csv
+SELECT * FROM Instructor;
+
+.headers on
+.mode csv
+.output user.csv
+SELECT * FROM User;
+
+.headers on
+.mode csv
+.output video.csv
+SELECT * FROM Video;
+
+.headers on
+.mode csv
+.output video-details.csv
+SELECT * FROM VideoDetails;
+
+COPY public."User" FROM '/prisma-course/test-data/user.csv' DELIMITER ',' CSV HEADER;
+COPY public."Instructor" FROM '/prisma-course/test-data/instructor.csv' DELIMITER ',' CSV HEADER;
+COPY public."Course" FROM '/prisma-course/test-data/course.csv' DELIMITER ',' CSV HEADER;
+COPY public."Video" FROM '/prisma-course/test-data/video.csv' DELIMITER ',' CSV HEADER;
+COPY public."VideoDetails" FROM '/prisma-course/test-data/video-details.csv' DELIMITER ',' CSV HEADER;

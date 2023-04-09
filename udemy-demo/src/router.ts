@@ -2,7 +2,7 @@ import { Router } from "express";
 import { body, param } from "express-validator";
 import { createCourse, deleteCourseById, getCourses, getCourseById, updateCourse } from "./handlers/course";
 import { getInstructors, createInstructor, getInstructor } from "./handlers/instructor";
-import { privateRoute, signin, signup } from "./handlers/user";
+import { deactivateAccount, privateRoute, signin, signup } from "./handlers/user";
 import { createVideo, getVideos } from "./handlers/video";
 import { authenticate } from "./middlewares/auth";
 
@@ -18,11 +18,8 @@ router.post('/course', authenticate,
   body('desc').isString().notEmpty(),
   body('instructorId').isInt().optional(),
   createCourse);
-
 router.get('/course/:id', param('id').isInt(), getCourseById);
 router.delete('/course/:id', param('id').isInt(), deleteCourseById);
-
-// write the route here
 router.put('/course/:id',
   param('id').isInt(),
   body('title').isString().optional(),
@@ -41,7 +38,6 @@ router.post('/instructor', authenticate,
   body('country').isString().notEmpty(),
   body('city').isString().notEmpty(),
   createInstructor);
-
 router.get('/instructor/:id', param('id').isInt(), getInstructor);
 
 /*******************************************************************************
@@ -55,7 +51,6 @@ router.post('/video',
   body('key').isString().optional(),
   body('metaData').isString().optional(),
   createVideo);
-
 router.get('/videos', getVideos);
 
 /*******************************************************************************
@@ -64,14 +59,19 @@ router.get('/videos', getVideos);
 router.post('/signup',
   body('email').isString().isEmail().notEmpty(),
   body('password').isString().notEmpty(),
-  signup);
-
+  signup
+);
 router.post('/signin',
   body('email').isString().isEmail().notEmpty(),
   body('password').isString().notEmpty(),
-  signin);
-
+  signin
+);
+router.delete('/deactivate-acct',
+  authenticate,
+  body('email').isString().isEmail().notEmpty(),
+  body('password').isString().notEmpty(),
+  deactivateAccount
+);
 router.get('/private', authenticate, privateRoute);
-
 
 export default router;
