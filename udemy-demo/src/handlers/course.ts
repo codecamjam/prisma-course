@@ -1,21 +1,42 @@
 import { validationResult } from "express-validator";
 import { RequestHandler } from 'express';
 import prisma from "../db";
+import { createPaginator } from 'prisma-pagination';
+import { Course, Prisma } from "@prisma/client";
+
+// display 5 courses per page
+const paginate = createPaginator({});
 
 export const getCourses: RequestHandler = async (req, res) => {
+  const { page = '0', perPage = '0' } = req.query;
   const errors = validationResult(req);
-  if (!errors.isEmpty()) {
+  if (!errors.isEmpty() || !req.query.page) {
     return res.status(400).json({ errors: errors.array() });
   }
-  const courses = await prisma.course.findMany({
-    where: {
-      instructorId: +req.params.instructorId
+  // call the paginate
+  const results = await paginate<Course, Prisma.CourseFindManyArgs>(
+    prisma.course,
+    {
+      where: {
+        // title: {
+        //   contains: 'Nodejs'
+        // }
+        instructorId: +req.params.instructorId,
+
+      },
+      include: {
+        Instructor: true
+      },
+      orderBy: {
+        id: 'desc'
+      }
     },
-    include: {
-      Instructor: true
+    {
+      page: +page,
+      perPage: +perPage
     }
-  });
-  res.status(200).json(courses);
+  );
+  res.status(200).json(results);
 };
 
 export const createCourse: RequestHandler = async (req, res) => {
