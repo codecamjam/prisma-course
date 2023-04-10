@@ -94,3 +94,9 @@ model Application {
   Customer   Customer? @relation(fields: [customerId], references: [id])
   customerId Int?
 }
+
+model Account {
+  id      Int    @id @default(autoincrement())
+  balance Float
+  title   String
+}

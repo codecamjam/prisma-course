@@ -5,7 +5,8 @@ import { getInstructors, createInstructor, getInstructor } from "./handlers/inst
 import { deactivateAccount, privateRoute, signin, signup } from "./handlers/user";
 import { createVideo, getVideos } from "./handlers/video";
 import { authenticate } from "./middlewares/auth";
-import { createApplication } from "./handlers/application";
+import { createApplication, sequentialQueries } from "./handlers/application";
+import { createAccounts, transferHandler } from "./handlers/account";
 
 const router = Router();
 
@@ -76,8 +77,21 @@ router.delete('/deactivate-acct',
 router.get('/private', authenticate, privateRoute);
 
 /*******************************************************************************
- * Application Route
+ * Miscellaneous Routes
  */
 router.post('/application', createApplication);
+router.get('/sequential', sequentialQueries);
+router.post(
+  '/account',
+  body('title').isString().notEmpty(),
+  body('balance').isFloat().notEmpty(),
+  createAccounts
+);
+router.post(
+  '/transfer',
+  body('sender').isFloat().notEmpty(),
+  body('receiver').isFloat().notEmpty(),
+  transferHandler
+);
 
 export default router;

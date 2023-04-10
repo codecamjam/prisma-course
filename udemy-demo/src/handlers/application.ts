@@ -40,3 +40,17 @@ export const createApplication: RequestHandler = async (req, res) => {
   });
   return res.status(201).json(results);
 };
+
+export const sequentialQueries: RequestHandler = async (req, res) => {
+  const results = await prisma.$transaction([
+    // find application
+    prisma.application.findMany(),
+    prisma.customer.findMany(),
+    prisma.course.findMany(),
+    prisma.address.findMany(),
+    // find customer
+    // find address
+    // find courses 
+  ]);
+  res.status(200).json(results);
+};
