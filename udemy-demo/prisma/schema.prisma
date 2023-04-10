@@ -57,3 +57,40 @@ model VideoDetails {
   video           Video?  @relation(fields: [videoId], references: [id])
   videoId         Int?    @unique
 }
+
+// You have to create Customer, Address and the Application Model
+// One to one relation with Customer and Address
+// One to many relation with Customer and Application
+
+model Customer {
+  id           Int           @id @default(autoincrement())
+  name         String
+  email        String        @unique
+  address      Address?      @relation(fields: [addressId], references: [id])
+  applications Application[]
+  addressId    Int?          @unique
+}
+
+model Address {
+  id       Int       @id @default(autoincrement())
+  zip      String?
+  city     String
+  country  String
+  Customer Customer?
+}
+
+enum APPLICATION_TYPE {
+  LOAN
+  CAR_FINANCING
+  BUSINESS_FINANCING
+}
+
+model Application {
+  id     Int              @id @default(autoincrement())
+  type   APPLICATION_TYPE
+  tenure String
+  amount Int
+
+  Customer   Customer? @relation(fields: [customerId], references: [id])
+  customerId Int?
+}

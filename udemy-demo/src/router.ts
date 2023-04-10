@@ -5,6 +5,7 @@ import { getInstructors, createInstructor, getInstructor } from "./handlers/inst
 import { deactivateAccount, privateRoute, signin, signup } from "./handlers/user";
 import { createVideo, getVideos } from "./handlers/video";
 import { authenticate } from "./middlewares/auth";
+import { createApplication } from "./handlers/application";
 
 const router = Router();
 
@@ -73,5 +74,10 @@ router.delete('/deactivate-acct',
   deactivateAccount
 );
 router.get('/private', authenticate, privateRoute);
+
+/*******************************************************************************
+ * Application Route
+ */
+router.post('/application', createApplication);
 
 export default router;
